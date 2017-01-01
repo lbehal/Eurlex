@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Eurlex
 // @namespace    eu_01
-// @version      0.1
+// @version      0.2
 // @require      https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js
 // @require      https://raw.githubusercontent.com/lbehal/Eurlex/master/tooltipster.bundle.min.js
 // @resource     tooltipster_css https://raw.githubusercontent.com/lbehal/Eurlex/master/tooltipster.bundle.min.css
@@ -26,7 +26,7 @@
     //$1 = this.jQuery = jQuery.noConflict(true);
     console.log('2');
     var idMatch = new RegExp("^ntc.*?-E....$");
-	var linkMatch = new RegExp(",[\\s\\u00A0]+s(?:\\.)?[\\s\\u00A0]+(\\d+)[\\s\\u00A0]*$");
+	var linkMatch = new RegExp(",[\\s\\u00A0]+[sp](?:\\.)?[\\s\\u00A0]+(\\d+)[\\s\\u00A0]*$");
 	
 	var ojUriMatch = new RegExp("uri=OJ\\:(.*?)\\:(.*?)\\:(.*?)\\:TOC");//uri=OJ:L:2006:302:TOC
     var noteLinks = [];
@@ -181,6 +181,6 @@
     {
       //we must get the xml since the html does not contain the Page attribute
     }
-	console.log('1');
+	
     
 })();
