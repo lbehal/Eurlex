@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Eurlex
 // @namespace    eu_01
-// @version      0.2
+// @version      0.3
 // @require      https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js
 // @require      https://raw.githubusercontent.com/lbehal/Eurlex/master/tooltipster.bundle.min.js
 // @resource     tooltipster_css https://raw.githubusercontent.com/lbehal/Eurlex/master/tooltipster.bundle.min.css
@@ -36,7 +36,7 @@
 		return str.replace(/([.*+?^=!:${}()|\[\]\/\\])/g, "\\$1");
 	}
 	
-	$("p.note > a").each(function() {
+	$("a").each(function() {
 		
 		var el = $(this);
 		var linkText = el.text().replace(/\u00a0/g, " ");
@@ -85,7 +85,7 @@
 				},
 				onload: function(response) {
 					try {
-						debugger;
+						
 						var result = JSON.parse(response.responseText);
 						if(result.results === null || result.results.bindings.length === 0 || result.results.bindings["0"].celex === undefined) return;
 						console.log(result);
@@ -94,48 +94,30 @@
 						if(typeof celex === undefined) return;
 						console.log(celex);
 						
-						var noteEl = el.parent();
-						//noteEl.append(" "+celex);
+						//create button with celexid and set it up for clipboard copy..					
 						var celexEls = $(`<button class="btn" style="margin-left:5px" data-clipboard-text="${celex}">${celex}</button>`);
-						/*
-						celexEls.tooltipster(
-							{
-								//contentCloning: true,
-								content : celexMsg,
-								trigger: 'custom',		
-								triggerOpen: {
-									click: false,
-									mouseenter: false,
-									touchstart: false,
-									tap: false
-								},
-								triggerClose: {           
-									scroll: true,
-									mouseleave: true,
-									click: true
-								}
-							}
-							);
 						
 						
-						clipboard.on('success', function(e) {							
-							//$(e.trigger).tooltipster('open');
-						});
-					
-						*/
-						noteEl.append(celexEls);
-						var noteLink = noteEl.children('a:first-child');
-						var noteLinkId = noteLink.attr('id');
-						$(`a[href='#${noteLinkId}']`).each(function() 
-														  {
-							//this is a reference of changed notelink.
-							//we will update tooltipster value for all these since tooltipster does copy the html on init.
-							
-							var instance = $(this).tooltipster();
-							//instance.content(noteEl);
-							$(this).tooltipster('content', noteEl);
-							
-						});
+						//noteEl.append(celexEls);
+						celexEls.insertAfter(el);
+						
+						debugger;
+						var noteEl = el.parent("p.note");	
+						if(noteEl !== null)
+						{
+							var noteLink = noteEl.children('a:first-child');
+							var noteLinkId = noteLink.attr('id');
+							$(`a[href='#${noteLinkId}']`).each(function() 
+															   {
+								//this is a reference of changed notelink.
+								//we will update tooltipster value for all these since tooltipster does copy the html on init.
+
+								var instance = $(this).tooltipster();
+								//instance.content(noteEl);
+								$(this).tooltipster('content', noteEl);
+
+							});
+						}
 					}
 					catch(err) {
 						console.log(err);
