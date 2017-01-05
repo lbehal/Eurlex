@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Eurlex
 // @namespace    eu_01
-// @version      0.4
+// @version      0.5
 // @require      https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js
 // @require      https://raw.githubusercontent.com/lbehal/Eurlex/master/tooltipster.bundle.min.js
 // @resource     tooltipster_css https://raw.githubusercontent.com/lbehal/Eurlex/master/tooltipster.bundle.min.css
@@ -244,25 +244,23 @@
 					celexEls.insertBefore($(replacementNode));
 					
 					currentValue.processed = true;
-				});
+				});	
+				debugger;
+				var noteEl = $(currentValue.textNode).parent("p.note");	
+				if(noteEl !== null)
+				{
+					var noteLink = noteEl.children('a:first-child');
+					var noteLinkId = noteLink.attr('id');
+					$(`a[href='#${noteLinkId}']`).each(function() 
+													   {
+						//this is a reference of changed notelink.
+						//we will update tooltipster value for all these since tooltipster does copy the html on init.
+						//var instance = $(this).tooltipster('instance');
+						//instance.content(noteEl);
+						$(this).tooltipster('content', noteEl);
 
-					/*celexEls.insertAfter(el);
-
-					var noteEl = el.parent("p.note");	
-					if(noteEl !== null)
-					{
-						var noteLink = noteEl.children('a:first-child');
-						var noteLinkId = noteLink.attr('id');
-						$(`a[href='#${noteLinkId}']`).each(function() 
-														   {
-							//this is a reference of changed notelink.
-							//we will update tooltipster value for all these since tooltipster does copy the html on init.
-							//var instance = $(this).tooltipster('instance');
-							//instance.content(noteEl);
-							$(this).tooltipster('content', noteEl);
-
-						});
-					}*/
+					});
+				}
 			});
 		});
 	}
