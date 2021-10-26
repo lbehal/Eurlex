@@ -69,7 +69,7 @@
 			});	
 	}
 	
-	//add celex buttons to all OJ links 
+	//add celex buttons to all OJ links test
 	$("a").each(function() {		
 		var el = $(this);
 		var linkText = el.text().replace(/\u00a0/g, " ");
